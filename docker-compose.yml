@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:15.3-alpine
+    environment:
+      - POSTGRES_USER=payments_challenge
+      - POSTGRES_PASSWORD=payments_challenge
+      - POSTGRES_DB=payments_challenge
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+  payments:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: payments:latest
+    ports:
+      - 8080:8080
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
