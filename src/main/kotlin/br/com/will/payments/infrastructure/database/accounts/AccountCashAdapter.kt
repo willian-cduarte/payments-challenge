@@ -5,6 +5,7 @@ import br.com.will.payments.domain.exceptions.NotFoundException
 import br.com.will.payments.domain.exceptions.config.ErrorCodeConstants
 import br.com.will.payments.usecases.account.gateways.AccountCashGateway
 import java.sql.Timestamp
+import java.time.Instant
 
 class AccountCashAdapter(private val accountCashRepository: AccountCashRepository) : AccountCashGateway {
 
@@ -30,7 +31,7 @@ class AccountCashAdapter(private val accountCashRepository: AccountCashRepositor
         return accountCashRepository.save(AccountCashEntity.Builder()
                 .userId(accountCash.userId)
                 .balance(accountCash.balance)
-                .createdAt(Timestamp.valueOf(accountCash.createdAt))
+                .createdAt(if (accountCash.createdAt != null)Timestamp.valueOf(accountCash.createdAt) else Timestamp.from(Instant.now()))
                 .build()
         ).let {
             AccountCash.Builder()
@@ -48,7 +49,7 @@ class AccountCashAdapter(private val accountCashRepository: AccountCashRepositor
                 .id(accountCash.id)
                 .userId(accountCash.userId)
                 .balance(accountCash.balance)
-                .createdAt(Timestamp.valueOf(accountCash.createdAt))
+                .createdAt(if (accountCash.createdAt != null) Timestamp.valueOf(accountCash.createdAt) else Timestamp.from(Instant.now()))
                 .updatedAt(Timestamp.valueOf(accountCash.updatedAt))
                 .build()
         ).let {

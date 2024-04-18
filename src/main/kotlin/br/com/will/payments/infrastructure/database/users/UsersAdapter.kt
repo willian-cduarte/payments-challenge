@@ -3,11 +3,10 @@ package br.com.will.payments.infrastructure.database.users
 import br.com.will.payments.domain.entities.User
 import br.com.will.payments.domain.exceptions.NotFoundException
 import br.com.will.payments.domain.exceptions.config.ErrorCodeConstants
-import br.com.will.payments.usecases.payment.gateways.TransactionUsersGateway
 import br.com.will.payments.usecases.users.gateways.UsersGateway
 
 //@Component
-class UsersAdapter(private val userRepository: UserRepository) : UsersGateway, TransactionUsersGateway {
+class UsersAdapter(private val userRepository: UserRepository) : UsersGateway {
 
     override fun create(user: User): User {
         userRepository.save(UserEntity.Builder()
@@ -47,5 +46,9 @@ class UsersAdapter(private val userRepository: UserRepository) : UsersGateway, T
                     .cpfOrCnpj(it.cpfCnpj)
                     .build()
         }
+    }
+
+    override fun existsById(userId: Int): Boolean {
+        return userRepository.existsById(userId)
     }
 }

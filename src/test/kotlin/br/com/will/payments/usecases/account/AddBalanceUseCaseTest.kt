@@ -3,22 +3,19 @@ package br.com.will.payments.usecases.account
 import br.com.will.payments.domain.entities.AccountCash
 import br.com.will.payments.domain.exceptions.NotFoundException
 import br.com.will.payments.domain.exceptions.config.ErrorCodeConstants
+import br.com.will.payments.usecases.BaseTest
 import br.com.will.payments.usecases.account.gateways.AccountCashGateway
 import br.com.will.payments.usecases.account.impl.AddBalanceUseCaseImpl
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.mockStatic
-import org.mockito.junit.jupiter.MockitoExtension
 import java.time.LocalDateTime
 
 
-@ExtendWith(MockitoExtension::class)
-class AddBalanceUseCaseTest {
+class AddBalanceUseCaseTest : BaseTest() {
 
     @Mock
     lateinit var accountCashGateway: AccountCashGateway
@@ -35,8 +32,6 @@ class AddBalanceUseCaseTest {
 
     @Test
     fun `should add balance with success`() {
-
-        mockStatic(LocalDateTime::class.java)
 
         val updateAccount = account.copy(balance = 100.0F, updatedAt = LocalDateTime.now())
 

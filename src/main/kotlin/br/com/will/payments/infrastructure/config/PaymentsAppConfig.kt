@@ -12,11 +12,9 @@ import br.com.will.payments.usecases.account.gateways.AccountCashGateway
 import br.com.will.payments.usecases.notifications.gateways.NotificationsGateway
 import br.com.will.payments.usecases.payment.gateways.NotifyTransactionGateway
 import br.com.will.payments.usecases.payment.gateways.PaymentTransactionGateway
-import br.com.will.payments.usecases.payment.gateways.TransactionUsersGateway
 import br.com.will.payments.usecases.users.gateways.UsersGateway
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.domain.EntityScan
-import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -51,20 +49,17 @@ class PaymentsAppConfig {
 
     @Bean
     @Primary
-    @Qualifier("UsersGateway")
+    @Qualifier("usersGateway")
     fun usersGateway(userRepository: UserRepository): UsersGateway =
             UsersAdapter(userRepository)
 
     @Bean
+    @Qualifier("PaymentTransactionGateway")
     fun paymentTransactionGateway(paymentsRepository: PaymentsRepository): PaymentTransactionGateway =
             PaymentsAdapter(paymentsRepository)
 
     @Bean
-    @Qualifier("TransactionUsersGateway")
-    fun transactionUsersGateway(userRepository: UserRepository): TransactionUsersGateway =
-            UsersAdapter(userRepository)
-
-    @Bean
+    @Qualifier("AccountCashGateway")
     fun accountCashGateway(accountCashRepository: AccountCashRepository): AccountCashGateway =
             AccountCashAdapter(accountCashRepository)
 

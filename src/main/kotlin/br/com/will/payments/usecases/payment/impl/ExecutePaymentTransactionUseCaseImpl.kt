@@ -10,15 +10,15 @@ import br.com.will.payments.usecases.account.gateways.AccountCashGateway
 import br.com.will.payments.usecases.payment.ExecuteTransactionUseCase
 import br.com.will.payments.usecases.payment.gateways.NotifyTransactionGateway
 import br.com.will.payments.usecases.payment.gateways.PaymentTransactionGateway
-import br.com.will.payments.usecases.payment.gateways.TransactionUsersGateway
 import br.com.will.payments.usecases.payment.gateways.ValidateTransactionAuthorizationGateway
+import br.com.will.payments.usecases.users.gateways.UsersGateway
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 @Component
 class ExecutePaymentTransactionUseCaseImpl(
-        private val usersGateway: TransactionUsersGateway,
+        private val usersGateway: UsersGateway,
         private val paymentTransactionGateway: PaymentTransactionGateway,
         private val accountCashGateway: AccountCashGateway,
         private val validateTransactionAuthorizationGateway: ValidateTransactionAuthorizationGateway,

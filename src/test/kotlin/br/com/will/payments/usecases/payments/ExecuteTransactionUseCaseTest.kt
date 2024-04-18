@@ -1,46 +1,26 @@
 package br.com.will.payments.usecases.payments
 
 import br.com.will.payments.domain.entities.AccountCash
-import br.com.will.payments.domain.entities.NotificationStatus
 import br.com.will.payments.domain.entities.Payment
-import br.com.will.payments.domain.entities.TransactionNotification
 import br.com.will.payments.domain.entities.User
-import br.com.will.payments.domain.entities.UserNotification
 import br.com.will.payments.domain.exceptions.BusinessException
+import br.com.will.payments.usecases.BaseTest
 import br.com.will.payments.usecases.account.gateways.AccountCashGateway
 import br.com.will.payments.usecases.payment.gateways.NotifyTransactionGateway
 import br.com.will.payments.usecases.payment.gateways.PaymentTransactionGateway
-import br.com.will.payments.usecases.payment.gateways.TransactionUsersGateway
 import br.com.will.payments.usecases.payment.gateways.ValidateTransactionAuthorizationGateway
 import br.com.will.payments.usecases.payment.impl.ExecutePaymentTransactionUseCaseImpl
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.AfterEach
+import br.com.will.payments.usecases.users.gateways.UsersGateway
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.MockedStatic
 import org.mockito.Mockito
-import org.mockito.Mockito.doNothing
-import org.mockito.MockitoSession
-import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.quality.Strictness
-import org.springframework.test.context.event.annotation.AfterTestExecution
-import org.springframework.test.context.event.annotation.BeforeTestExecution
-import org.springframework.test.context.transaction.AfterTransaction
-import org.springframework.test.context.transaction.BeforeTransaction
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import java.time.LocalDateTime
 
-@ExtendWith(MockitoExtension::class)
-class ExecuteTransactionUseCaseTest {
+class ExecuteTransactionUseCaseTest : BaseTest() {
 
     @Mock
-    lateinit var usersGateway: TransactionUsersGateway
+    lateinit var usersGateway: UsersGateway
 
     @Mock
     lateinit var paymentTransactionGateway: PaymentTransactionGateway
@@ -56,19 +36,6 @@ class ExecuteTransactionUseCaseTest {
 
     @InjectMocks
     lateinit var executeTransactionUseCase: ExecutePaymentTransactionUseCaseImpl
-
-
-    private var mockedSettings: MockedStatic<LocalDateTime>? = null
-
-    @BeforeClass
-    fun init() {
-        mockedSettings = Mockito.mockStatic(LocalDateTime::class.java)
-    }
-
-    @AfterClass
-    fun close() {
-        mockedSettings!!.close()
-    }
 
     private val payer = User.Builder()
             .id(1)
@@ -103,19 +70,6 @@ class ExecuteTransactionUseCaseTest {
             .value(50.00F)
             .transactionId(1)
             .build()
-
-    private val payeeNotification = UserNotification(payee.name, payee.email)
-    private val payerNotification = UserNotification(payer.name, payer.email)
-
-    val transaction = TransactionNotification.Builder()
-            .transactionId(payment.transactionId)
-            .payee(payeeNotification)
-            .payer(payerNotification)
-            .value(payment.value)
-            .status(NotificationStatus.TO_NOTIFY)
-            .createdAt(LocalDateTime.now())
-            .build()
-
 
     @Test
     fun `should execute payment transaction with success`() {
