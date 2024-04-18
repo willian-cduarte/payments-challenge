@@ -2,6 +2,24 @@ spring:
   application:
     name: payments-challenge
 
+  openfeign:
+    client:
+      config:
+        default:
+          connectTimeout: 5000
+          readTimeout: 5000
+          loggerLevel: FULL
+
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: FULL
+          transactionAuthorization:
+            url: https://run.mocky.io/v3
+
   datasource:
     url: jdbc:postgresql://0.0.0.0:5432/payments_challenge
     jdbc-url: jdbc:postgresql://0.0.0.0:5432/payments_challenge
@@ -13,3 +31,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh

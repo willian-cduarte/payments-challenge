@@ -2,8 +2,8 @@ package br.com.will.payments.domain.exceptions.config
 
 open class PaymentsChallengeException: RuntimeException {
 
-    private val errorCode: ErrorCodeAbstract
-    private val originalErrorMessage: String?
+    val errorCode: ErrorCodeAbstract
+    val originalErrorMessage: String?
 
     constructor(
             errorCodeAbstract: ErrorCodeAbstract,

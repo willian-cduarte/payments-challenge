@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<kotlin.version>1.8.22</kotlin.version>
 		<start-class>br.com.will.payments.PaymentsApplicationKt</start-class>
+		<spring-cloud.version>2022.0.5</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -27,6 +28,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-kotlin</artifactId>
@@ -50,13 +52,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
-		<!--<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>5.11.0</version>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>4.1.1</version>
 			<scope>test</scope>
-		</dependency>-->
+		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -65,7 +66,30 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
+
 	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>

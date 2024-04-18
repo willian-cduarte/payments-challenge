@@ -4,7 +4,7 @@ import br.com.will.payments.domain.exceptions.ValidationException
 import br.com.will.payments.domain.exceptions.config.ErrorCodeConstants
 
 data class User (
-        val id: Int? = null,
+        val id: Int?,
         val name: String?,
         val cpfOrCnpj: String?,
         val email: String?,
@@ -34,20 +34,23 @@ data class User (
         }
     }
 
-
     fun isValidEmail() {
         val emailRegex = "^(?=.{1,64}@)[A-Za-z0-9+_-]+(.[A-Za-z0-9+_-]+)*@[^-][A-Za-z0-9+-]+(.[A-Za-z0-9+-]+)*(.[A-Za-z]{2,})$";
         if (email == null)
-            throw ValidationException(this::class.simpleName!!, "email", ErrorCodeConstants.FIELD_VALUE_IS_NULL)
+            throw ValidationException(this::class.simpleName!!, "email", ErrorCodeConstants.FIELD_VALUE_CANNOT_BE_NULL)
         if (!email.matches(emailRegex.toRegex()))
             throw ValidationException(this::class.simpleName!!, "email", ErrorCodeConstants.FIELD_VALUE_INVALID)
     }
 
     fun isValidCpfOrCnpj() {
         if (cpfOrCnpj == null)
-            throw ValidationException(this::class.simpleName!!, "cpfOrCnpj", ErrorCodeConstants.FIELD_VALUE_IS_NULL)
+            throw ValidationException(this::class.simpleName!!, "cpfOrCnpj", ErrorCodeConstants.FIELD_VALUE_CANNOT_BE_NULL)
         if (cpfOrCnpj.length != 11 && cpfOrCnpj.length != 14)
             throw ValidationException(this::class.simpleName!!, "cpfOrCnpj", ErrorCodeConstants.FIELD_VALUE_INVALID)
+    }
+
+    fun isMerchant(): Boolean {
+        return cpfOrCnpj!!.length == 14
     }
 
 }

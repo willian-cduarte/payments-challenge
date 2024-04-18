@@ -13,18 +13,20 @@ class AddUsersUseCaseImpl(private val usersGateway: UsersGateway) : AddUsersUseC
 
     @Transactional
     override fun execute(user: User): User {
-        user.isValidEmail()
         user.isValidCpfOrCnpj()
+        user.isValidEmail()
 
-        usersGateway.existsByEmail(user).let { existsByEmail ->
-            if (existsByEmail)
-                throw ValidationException("user", "email", ErrorCodeConstants.FIELD_VALUE_EXISTS)
-        }
 
         usersGateway.existsByCpfOrCnpj(user).let { existsByCpfOrCnpj ->
             if (existsByCpfOrCnpj)
-                throw ValidationException("user", "cpfOrCnpj", ErrorCodeConstants.FIELD_VALUE_EXISTS)
+                throw ValidationException("user", "cpfOrCnpj", ErrorCodeConstants.DOCUMENT_ALREADY_EXISTS)
         }
+
+        usersGateway.existsByEmail(user).let { existsByEmail ->
+            if (existsByEmail)
+                throw ValidationException("user", "email", ErrorCodeConstants.EMAIL_ALREADY_EXISTS)
+        }
+
 
         return usersGateway.create(user)
     }

@@ -12,14 +12,18 @@ import jakarta.persistence.Table
 @Table(name = "users")
 class UserEntity(
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int?,
+
         @Column(name = "name")
         val name: String?,
+
         @Column(name = "cpfCnpj", unique=true, nullable = false)
         val cpfCnpj: String?,
+
         @Column(name = "email", unique=true, nullable = false)
         val email: String?,
+
         @Column(name = "password")
         val password: String?
 ) {

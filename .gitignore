@@ -23,13 +23,17 @@
 hs_err_pid*
 replay_pid*
 
-
 HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
@@ -51,6 +55,13 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
 ### VS Code ###
 .vscode/

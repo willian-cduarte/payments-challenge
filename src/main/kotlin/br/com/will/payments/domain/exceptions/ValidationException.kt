@@ -15,4 +15,8 @@ class ValidationException: BusinessException {
         listFieldErrors =  mutableListOf<ValidationFieldError>()
         listFieldErrors?.add(ValidationFieldError(objectName, field, defaultMessage))
     }
+
+    fun getListFieldErrors(): MutableList<ValidationFieldError>? {
+        return listFieldErrors
+    }
 }
